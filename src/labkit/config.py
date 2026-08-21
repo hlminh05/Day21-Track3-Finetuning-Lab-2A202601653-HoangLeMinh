@@ -37,7 +37,10 @@ TIERS: dict[str, Tier] = {
         name="CPU",
         model_id="Qwen/Qwen3.5-0.8B",
         vram_gb_bf16_lora=0.0,
-        max_length=512,
+        # The shipped 250-ticket corpus measures p95=98 tokens. 256 is the next
+        # supported power-of-two headroom and avoids paying for unused context on
+        # the lightweight local run.
+        max_length=256,
         per_device_batch=1,
         grad_accum=8,
         notes="No GPU. NB1 (data+mask) and the eval harness run here; training does not.",
